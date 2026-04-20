@@ -1,0 +1,22 @@
+
+version: '3.8'
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres       # User mặc định, bạn có thể đổi tên khác
+      POSTGRES_PASSWORD: 13579    # Tương đương MYSQL_ROOT_PASSWORD
+      POSTGRES_DB: cnpmDB          # Tương đương MYSQL_DATABASE
+    ports:
+      - "5432:5432"                 # Port mặc định của PostgreSQL là 5432
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123456
