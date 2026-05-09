@@ -1,6 +1,13 @@
-/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/service/UserService.java
 /Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/entity/BaseEntity.java
+/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/controller/AuthController.java
+/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/controller/UserController.java
+/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/dto/AuthRequest.java
+/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/config/SecurityConfig.java
+/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/service/UserService.java
 /Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/entity/User.java
 /Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/DemoApplication.java
 /Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/repository/UserRepository.java
-/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/controller/UserController.java
+/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/security/JwtAuthFilter.java
+/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/security/JwtService.java
+/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/service/CustomUserDetailsService.java
+/Users/thienx/Documents/2025uit/springboot-docker/src/main/java/com/example/demo/dto/AuthResponse.java
