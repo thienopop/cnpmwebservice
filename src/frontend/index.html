@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách Học viên</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { padding: 10px 15px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 5px; }
+        ul { margin-top: 20px; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+<h2>Hệ thống Quản lý Gia sư - Học viên</h2>
+<button onclick="fetchUsers()">Tải danh sách từ Spring Boot</button>
+
+<ul id="user-list"></ul>
+
+<script>
+    // Hàm dùng JavaScript để gọi API
+    function fetchUsers() {
+        // Gọi đường dẫn API của bạn
+        fetch('http://localhost:8080/users')
+            .then(response => response.json()) // Biến dữ liệu thô thành mảng JSON
+            .then(data => {
+                const listElement = document.getElementById('user-list');
+                listElement.innerHTML = ''; // Xóa dữ liệu cũ nếu có
+
+                // Lặp qua từng user và nhét vào thẻ <li>
+                data.forEach(user => {
+                    const li = document.createElement('li');
+                    li.textContent = user;
+                    listElement.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Lỗi kết nối:', error));
+    }
+</script>
+</body>
+</html>
