@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đăng nhập</title>
+
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+ background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    }
+
+    .login-container{
+      width: 380px;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .login-container h1{
+      text-align: center;
+      margin-bottom: 10px;
+
+    }
+
+    .login-container p{
+      text-align: center;
+      color: #777;
+      margin-bottom: 30px;
+    }
+
+    .input-group{
+      margin-bottom: 20px;
+    }
+
+    .input-group label{
+      display: block;
+      margin-bottom: 8px;
+      color: #444;
+      font-weight: bold;
+    }
+
+    .input-group input{
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus{
+      border-color: #4f46e5;
+      box-shadow: 0 0 5px rgba(79,70,229,0.4);
+    }
+
+    .options{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .options a{
+      text-decoration: none;
+      color: #4f46e5;
+    }
+
+    .login-btn{
+          width: 100%;
+          padding: 12px;
+          border: none;
+          border-radius: 10px;
+          background: #2563eb;
+          color: white;
+          font-size: 16px;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+    .login-btn:hover{
+      background: #4338ca;
+    }
+
+    .register{
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .register a{
+      color: #4f46e5;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="login-container">
+  <h1>Đăng nhập</h1>
+  <p>Chào mừng bạn quay trở lại</p>
+
+  <form>
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="Nhập email">
+    </div>
+
+    <div class="input-group">
+      <label>Mật khẩu</label>
+      <input type="password" id="password" placeholder="Nhập mật khẩu">
+    </div>
+    <div class="message" id="message">
+
+    </div>
+
+    <div class="options">
+<!--      <label>-->
+<!--        <input type="checkbox">-->
+<!--        Ghi nhớ-->
+<!--      </label>-->
+
+      <a href="#">Quên mật khẩu?</a>
+    </div>
+
+    <button type="button" id="Btlogin" class="login-btn">
+      Đăng nhập
+    </button>
+  </form>
+
+  <div class="register" id="Btsingin">
+    Chưa có tài khoản?
+    <a href="#">Đăng ký</a>
+  </div>
+</div>
+
+<script>
+  document.getElementById("Btlogin")
+  .addEventListener("click", login);
+
+  // Login
+  async function login() {
+
+      let email = document.getElementById("email").value.trim();
+      let password = document.getElementById("password").value.trim();
+
+      let message = document.getElementById("message");
+
+      // Kiểm tra rỗng
+      if(email === "" || password === ""){
+
+          message.innerHTML = "Nhập đầy đủ thông tin!";
+          message.style.color = "red";
+
+          return;
+      }
+
+      // Regex email
+      let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+      if(!emailPattern.test(email)){
+
+          message.innerHTML = "Email không đúng định dạng!";
+          message.style.color = "red";
+
+          return;
+      }
+
+      let loginData = {
+
+          email: email,
+          password: password
+
+      };
+
+      try {
+
+          let response = await fetch(
+              "http://localhost:8080/auth/login",
+              {
+
+                  method: "POST",
+
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+
+                  body: JSON.stringify(loginData)
+
+              }
+          );
+
+          if(response.ok){
+
+              let result = await response.json();
+
+              message.innerHTML = result.message;
+              message.style.color = "green";
+
+              // Lưu JWT
+              localStorage.setItem("token", result.token);
+
+              console.log(result.token);
+
+              setTimeout(() => {
+
+                  window.location.href = "index.html";
+
+              }, 1000);
+          }
+          else{
+
+              let errorText = await response.text();
+
+              message.innerHTML = errorText;
+              message.style.color = "red";
+
+          }
+
+      }
+      catch(error){
+
+          console.log(error);
+
+          message.innerHTML = "Không thể kết nối server!";
+          message.style.color = "red";
+
+      }
+  }
+
+  // Chuyển trang đăng ký
+  document.getElementById("Btsingin")
+  .addEventListener("click", function(){
+
+      window.location.href = "signin.html";
+
+  });
+</script>
+</body>
+</html>

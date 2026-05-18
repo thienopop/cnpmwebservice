@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thêm phản hồi</title>
+
+  <!-- ICON -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body{
+        background:#f5f5f5;
+        color:#222;
+    }
+
+    /* ===== HEADER ===== */
+
+    header{
+        width:100%;
+        padding:25px 70px;
+
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
+
+    .menu{
+        display:flex;
+        gap:35px;
+        align-items:center;
+    }
+
+    .menu a{
+        text-decoration:none;
+        color:#222;
+        font-size:16px;
+        padding:10px 16px;
+        border-radius:6px;
+        transition:0.3s;
+    }
+
+    .menu a.active{
+        background:#dce5ff;
+    }
+
+    .menu a:hover{
+        background:#e9efff;
+    }
+
+    .profile{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        font-size:18px;
+    }
+
+    .profile i{
+        font-size:28px;
+        color:#666;
+    }
+
+    /* ===== MAIN ===== */
+
+    .container{
+        width:100%;
+        display:flex;
+        justify-content:center;
+
+        padding:40px 20px;
+    }
+
+    /* ===== FORM BOX ===== */
+
+    .form-box{
+        width:100%;
+        max-width:900px;
+
+        background:#fff;
+
+        border:1px solid #d9d9d9;
+        border-radius:18px;
+
+        padding:35px;
+    }
+
+    .form-box h2{
+        font-size:40px;
+        margin-bottom:35px;
+        color:#333;
+    }
+
+    /* ===== INPUT ===== */
+
+    .input-group{
+        margin-bottom:28px;
+    }
+
+    .input-group input,
+    .input-group textarea{
+        width:100%;
+
+        border:2px solid #d6dfff;
+        border-radius:14px;
+
+        background:#fdfdfd;
+
+        padding:18px 20px;
+
+        font-size:20px;
+
+        outline:none;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus{
+        border-color:#9fb5ff;
+    }
+
+    .input-group textarea{
+        min-height:220px;
+        resize:none;
+    }
+
+    /* ===== BOTTOM ===== */
+
+    .bottom-actions{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+
+        margin-top:10px;
+    }
+
+    /* Upload */
+
+    .upload-btn{
+        border:1px solid #d7d7d7;
+        background:#fff;
+
+        padding:14px 20px;
+
+        border-radius:10px;
+
+        display:flex;
+        align-items:center;
+        gap:10px;
+
+        color:#8aa5ff;
+        font-size:18px;
+        font-weight:600;
+
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    .upload-btn:hover{
+        background:#f3f6ff;
+    }
+
+    /* Right buttons */
+
+    .right-btns{
+        display:flex;
+        gap:16px;
+    }
+
+    .cancel-btn,
+    .submit-btn{
+        height:54px;
+        padding:0 26px;
+
+        border-radius:10px;
+
+        font-size:18px;
+        font-weight:600;
+
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    .cancel-btn{
+        border:1px solid #ddd;
+        background:#fff;
+        color:#8aa5ff;
+    }
+
+    .cancel-btn:hover{
+        background:#f6f6f6;
+    }
+
+    .submit-btn{
+        border:none;
+        background:#a8bbff;
+        color:white;
+    }
+
+    .submit-btn:hover{
+        background:#91a8ff;
+    }
+
+    /* ===== RESPONSIVE ===== */
+
+    @media(max-width:768px){
+
+        header{
+            padding:20px;
+        }
+
+        .menu{
+            display:none;
+        }
+
+        .form-box{
+            padding:25px;
+        }
+
+        .form-box h2{
+            font-size:30px;
+        }
+
+        .bottom-actions{
+            flex-direction:column;
+            gap:20px;
+            align-items:flex-start;
+        }
+
+        .right-btns{
+            width:100%;
+        }
+
+        .cancel-btn,
+        .submit-btn{
+            flex:1;
+        }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+
+  <div></div>
+
+  <nav class="menu">
+    <a href="#" class="active">Bảng phản hồi</a>
+    <a href="#">Lộ trình sản phẩm</a>
+    <a href="#">
+      Tài nguyên
+      <i class="fa-solid fa-chevron-down"></i>
+    </a>
+  </nav>
+
+  <div class="profile">
+    <i class="fa-regular fa-circle-user"></i>
+    <span>Name</span>
+  </div>
+
+</header>
+
+<!-- MAIN -->
+<section class="container">
+
+  <div class="form-box">
+
+    <h2>Thêm phản hồi</h2>
+
+    <!-- TITLE -->
+    <div class="input-group">
+      <input type="text" placeholder="Tiêu đề phản hồi">
+    </div>
+
+    <!-- CONTENT -->
+    <div class="input-group">
+      <textarea placeholder="Chi tiết phản hồi"></textarea>
+    </div>
+
+    <!-- ACTION -->
+    <div class="bottom-actions">
+
+      <!-- UPLOAD -->
+      <button class="upload-btn">
+        <i class="fa-solid fa-plus"></i>
+        Tải ảnh lên
+      </button>
+
+      <!-- RIGHT -->
+      <div class="right-btns">
+
+        <button class="cancel-btn">
+          Hủy
+        </button>
+
+        <button class="submit-btn">
+          Gửi yêu cầu
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+
+    <!-- ICON -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#f5f5f5;
+            color:#111;
+        }
+
+        /* ===== HEADER ===== */
+
+        header{
+            width:100%;
+            padding:25px 80px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .menu{
+            display:flex;
+            gap:40px;
+        }
+
+        .menu a{
+            text-decoration:none;
+            color:#222;
+            font-size:18px;
+        }
+
+        .menu a:hover{
+            color:#2563eb;
+        }
+
+        .login-link{
+            text-decoration:none;
+            color:#111;
+            font-size:18px;
+        }
+
+        /* ===== MAIN ===== */
+
+        .container{
+            width:100%;
+            min-height:85vh;
+
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+
+            padding:80px;
+            gap:80px;
+        }
+
+        /* ===== LEFT ===== */
+
+        .left{
+            width:40%;
+        }
+
+        .left h1{
+            font-size:70px;
+            margin-bottom:35px;
+            font-weight:500;
+        }
+
+        .left p{
+            font-size:22px;
+            color:#333;
+            margin-bottom:50px;
+            line-height:1.6;
+        }
+
+        .info{
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+        }
+
+        .info-item{
+            display:flex;
+            align-items:center;
+            gap:18px;
+            font-size:20px;
+        }
+
+        .info-item i{
+            font-size:24px;
+            width:30px;
+        }
+
+        /* ===== RIGHT ===== */
+
+        .right{
+            width:50%;
+        }
+
+        .form-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:30px;
+        }
+
+        .input-group{
+            display:flex;
+            flex-direction:column;
+        }
+
+        .input-group label{
+            margin-bottom:12px;
+            font-size:18px;
+            color:#555;
+        }
+
+        .input-group input{
+            height:55px;
+            padding:15px;
+            border:1px solid #cfcfcf;
+            border-radius:4px;
+            background:#f5f5f5;
+            font-size:17px;
+            outline:none;
+        }
+
+        .input-group input:focus{
+            border:1px solid #2563eb;
+        }
+
+        /* ===== ROLE ===== */
+
+        .role-box{
+            margin-top:50px;
+        }
+
+        .role-box h3{
+            margin-bottom:30px;
+            color:#666;
+            font-size:22px;
+            font-weight:500;
+        }
+
+        .roles{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:25px 50px;
+        }
+
+        .role-item{
+            display:flex;
+            align-items:center;
+            gap:15px;
+            font-size:18px;
+            color:#666;
+        }
+
+        .role-item input{
+            width:24px;
+            height:24px;
+        }
+
+        /* ===== BUTTON ===== */
+
+        .btn{
+            margin-top:45px;
+            padding:16px 32px;
+            border:none;
+            border-radius:8px;
+            background:#2563eb;
+            color:#fff;
+            font-size:20px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .btn:hover{
+            background:#1d4ed8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+
+        @media(max-width:1200px){
+
+            .container{
+                flex-direction:column;
+            }
+
+            .left,
+            .right{
+                width:100%;
+            }
+
+            .left h1{
+                font-size:55px;
+            }
+        }
+
+        @media(max-width:768px){
+
+            header{
+                padding:20px;
+            }
+
+            .menu{
+                display:none;
+            }
+
+            .container{
+                padding:30px 20px;
+            }
+
+            .form-grid,
+            .roles{
+                grid-template-columns:1fr;
+            }
+
+            .left h1{
+                font-size:45px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+
+    <div></div>
+
+    <nav class="menu">
+        <a href="#">Bảng phản hồi</a>
+        <a href="#">Lộ trình sản phẩm</a>
+        <a href="#">Tài nguyên ▼</a>
+    </nav>
+
+    <a href="#" class="login-link" id="page_login">
+        Đăng Nhập
+    </a>
+
+</header>
+
+<!-- MAIN -->
+<section class="container">
+
+    <!-- LEFT -->
+    <div class="left">
+
+        <h1>Đăng ký tại đây</h1>
+
+        <p>
+            Nhập email và mật khẩu để truy cập tài khoản của bạn
+        </p>
+
+        <div class="info">
+
+            <div class="info-item">
+                <i class="fa-regular fa-envelope"></i>
+                <span>Email</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fa-solid fa-phone"></i>
+                <span>Số điện thoại</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Ghi nhớ đăng nhập</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+        <!-- FORM -->
+        <div class="form-grid">
+
+            <div class="input-group">
+                <label>Email/Số điện thoại</label>
+                <input type="text">
+            </div>
+
+            <div class="input-group">
+                <label>Tên tài khoản</label>
+                <input type="text">
+            </div>
+
+            <div class="input-group">
+                <label>Mật khẩu</label>
+                <input type="password">
+            </div>
+
+            <div class="input-group">
+                <label>Nhập lại mật khẩu</label>
+                <input type="password">
+            </div>
+
+        </div>
+
+        <!-- ROLE -->
+        <div class="role-box">
+
+            <h3>Vai trò nào mô tả đúng nhất về bạn?</h3>
+
+            <div class="roles">
+
+                <label class="role-item">
+                    <input type="radio" name="role">
+                    <span>Thành viên nhóm</span>
+                </label>
+
+                <label class="role-item">
+                    <input type="radio" name="role">
+                    <span>Thành viên ban điều hành / Lãnh đạo</span>
+                </label>
+
+                <label class="role-item">
+                    <input type="radio" name="role">
+                    <span>Quản lý</span>
+                </label>
+
+                <label class="role-item">
+                    <input type="radio" name="role">
+                    <span>Cố vấn / Tư vấn viên</span>
+                </label>
+
+                <label class="role-item">
+                    <input type="radio" name="role">
+                    <span>Nhà phân tích</span>
+                </label>
+
+                <label class="role-item">
+                    <input type="radio" name="role">
+                    <span>Khác</span>
+                </label>
+
+            </div>
+
+            <button class="btn">
+                Đăng Ký
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    // Chuyển trang đăng nhập
+
+    document.getElementById("page_login")
+    .addEventListener("click", function(){
+
+    window.location.href = "login.html";
+
+    });
+
+
+</script>
+</body>
+</html>

@@ -8,7 +8,7 @@ import com.example.demo.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins = "http://localhost:63342")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

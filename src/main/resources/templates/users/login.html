@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Landing Page</title>
+
+    <style>
+        *{
+          margin:0;
+          padding:0;
+          box-sizing:border-box;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+          background:#f5f5f5;
+          color:#000;
+        }
+
+        /* ===== HEADER ===== */
+        header{
+          width:100%;
+          padding:25px 70px;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+        }
+
+        .menu{
+          display:flex;
+          gap:40px;
+          align-items:center;
+        }
+
+        .menu a{
+          text-decoration:none;
+          color:#222;
+          font-size:18px;
+        }
+
+        .menu a:hover{
+          color:#2563eb;
+        }
+
+        .auth{
+          display:flex;
+          gap:15px;
+          align-items:center;
+        }
+
+        .btn{
+          padding:12px 20px;
+          border:none;
+          border-radius:10px;
+          background:#2563eb;
+          color:white;
+          cursor:pointer;
+          font-size:16px;
+          transition:0.3s;
+        }
+
+        .btn:hover{
+          background:#1d4ed8;
+        }
+
+        .login-link{
+          text-decoration:none;
+          color:#111;
+          font-size:18px;
+        }
+
+        /* ===== HERO ===== */
+        .hero{
+          width:100%;
+          min-height:85vh;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          padding:40px 70px;
+          gap:50px;
+        }
+
+        .hero-left{
+          width:50%;
+        }
+
+        .hero-left h1{
+          font-size:85px;
+          line-height:1.05;
+          font-weight:800;
+          margin-bottom:35px;
+        }
+
+        .hero-left p{
+          font-size:22px;
+          line-height:1.6;
+          color:#333;
+          margin-bottom:40px;
+          max-width:700px;
+        }
+
+        /* ===== LOGIN BOX ===== */
+        .login-box{
+          width:520px;
+          background:#dfe8f5;
+          padding:45px;
+          border-radius:18px;
+        }
+
+        .input-group{
+          margin-bottom:25px;
+        }
+
+        .input-group input{
+          width:100%;
+          padding:18px;
+          border:none;
+          border-radius:10px;
+          font-size:18px;
+          outline:none;
+          background:#fff;
+        }
+
+        .login-footer{
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          margin-top:15px;
+        }
+
+        .forgot{
+          text-decoration:none;
+          color:#555;
+          font-size:18px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:1100px){
+
+          .hero{
+            flex-direction:column;
+            align-items:flex-start;
+          }
+
+          .hero-left,
+          .login-box{
+            width:100%;
+          }
+
+          .hero-left h1{
+            font-size:60px;
+          }
+        }
+
+        @media(max-width:700px){
+
+          header{
+            padding:20px;
+          }
+
+          .menu{
+            display:none;
+          }
+
+          .hero{
+            padding:20px;
+          }
+
+          .hero-left h1{
+            font-size:45px;
+          }
+
+          .hero-left p{
+            font-size:18px;
+          }
+
+          .login-box{
+            padding:25px;
+          }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+
+    <div></div>
+
+    <nav class="menu">
+        <a href="#">Bảng phản hồi</a>
+        <a href="#">Lộ trình sản phẩm</a>
+        <a href="#">Tài nguyên ▼</a>
+    </nav>
+
+    <div class="auth">
+        <a href="#" class="login-link">Đăng Nhập</a>
+        <button class="btn" id="Btsingin">Đăng Ký</button>
+    </div>
+
+</header>
+
+<!-- HERO -->
+<section class="hero">
+
+    <!-- LEFT -->
+    <div class="hero-left">
+        <h1>
+            Lắng nghe khách hàng, cải thiện sản phẩm
+        </h1>
+
+        <p>
+            Thu thập những phản hồi quan trọng.
+            Xây dựng những gì người dùng thực sự mong muốn.
+        </p>
+
+        <button class="btn">Bắt đầu</button>
+    </div>
+
+
+    <div class="login-box">
+
+        <div class="input-group">
+            <input type="text" id="email" placeholder="Email">
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Mật khẩu">
+        </div>
+        <div class="message" id="message">
+
+        </div>
+
+        <div class="login-footer">
+            <a href="#" class="forgot" id="BtForgetPassword">Quên mật khẩu?</a>
+
+            <button class="btn" id="Btlogin">
+                Đăng Nhập
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    document.getElementById("Btlogin")
+    .addEventListener("click", login);
+
+    // Login
+    async function login() {
+
+        let email = document.getElementById("email").value.trim();
+        let password = document.getElementById("password").value.trim();
+
+        let message = document.getElementById("message");
+
+        // Kiểm tra rỗng
+        if(email === "" || password === ""){
+
+            message.innerHTML = "Nhập đầy đủ thông tin!";
+            message.style.color = "red";
+
+            return;
+        }
+
+        // Regex email
+        let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+        if(!emailPattern.test(email)){
+
+            message.innerHTML = "Email không đúng định dạng!";
+            message.style.color = "red";
+
+            return;
+        }
+
+        let loginData = {
+
+            email: email,
+            password: password
+
+        };
+
+        try {
+
+            let response = await fetch(
+                "http://localhost:8080/auth/login",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify(loginData)
+
+                }
+            );
+
+            if(response.ok){
+
+                let result = await response.json();
+
+                message.innerHTML = result.message;
+                message.style.color = "green";
+
+                // Lưu JWT
+                localStorage.setItem("token", result.token);
+
+                console.log(result.token);
+
+                setTimeout(() => {
+
+                    window.location.href = "index.html";
+
+                }, 1000);
+            }
+            else{
+
+                let errorText = await response.text();
+
+                message.innerHTML = errorText;
+                message.style.color = "red";
+
+            }
+
+        }
+        catch(error){
+
+            console.log(error);
+
+            message.innerHTML = "Không thể kết nối server!";
+            message.style.color = "red";
+
+        }
+    }
+
+    // Chuyển trang đăng ký
+
+    document.getElementById("Btsingin")
+    .addEventListener("click", function(){
+
+        window.location.href = "singup.html";
+
+    });
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng phản hồi</title>
+
+    <!-- ICON -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#f5f5f5;
+            color:#222;
+        }
+
+        /* ===== HEADER ===== */
+
+        header{
+            width:100%;
+            padding:30px 80px;
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .menu{
+            display:flex;
+            gap:40px;
+            align-items:center;
+        }
+
+        .menu a{
+            text-decoration:none;
+            color:#222;
+            font-size:18px;
+            padding:10px 16px;
+            border-radius:6px;
+            transition:0.3s;
+        }
+
+        .menu a.active{
+            background:#cdd9ff;
+        }
+
+        .menu a:hover{
+            background:#e3eaff;
+        }
+
+        .profile{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            font-size:20px;
+        }
+
+        .profile i{
+            font-size:32px;
+            color:#777;
+        }
+
+        /* ===== MAIN ===== */
+
+        .container{
+            width:100%;
+            display:flex;
+            gap:50px;
+
+            padding:40px 80px;
+        }
+
+        /* ===== LEFT ===== */
+
+        .left{
+            width:68%;
+            flex:1;
+
+        }
+
+        /* FILTER */
+
+       .filters{
+    display:flex;
+    gap:25px;
+    margin-bottom:40px;
+    width:100%;
+}
+.search-box{
+    flex:2;
+}
+
+.select-box{
+    flex:1;
+}
+
+.search-box input,
+.select-box select{
+    width:100%;
+    height:72px;
+    border:2px solid #d6d6d6;
+    border-radius:14px;
+    padding:0 22px;
+    font-size:22px;
+    background:#f5f5f5;
+    outline:none;
+}
+
+.search-box input{
+    border-color:#b8c9ff;
+}
+
+.select-box select{
+    cursor:pointer;
+}
+        /* ===== CARD ===== */
+
+        .feedback-card{
+            background:#fff;
+            border:1px solid #d9d9d9;
+            border-radius:20px;
+            overflow:hidden;
+
+            margin-bottom:30px;
+        }
+
+        .card-top{
+            display:flex;
+            justify-content:space-between;
+        }
+
+        .card-content{
+            padding:28px;
+            width:100%;
+        }
+
+        .card-content h2{
+            font-size:28px;
+            margin-bottom:18px;
+        }
+
+        .card-content h2.active{
+            color:#7c9cff;
+        }
+
+        .new-tag{
+            font-size:18px;
+            color:#bbb;
+            margin-left:10px;
+            font-weight:400;
+        }
+
+        .card-content p{
+            font-size:20px;
+            color:#666;
+        }
+
+        .vote-box{
+            width:90px;
+            border-left:1px solid #ddd;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            font-size:38px;
+            color:#555;
+        }
+
+        /* ===== BOTTOM ===== */
+
+        .card-bottom{
+            border-top:1px solid #ddd;
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            padding:16px 28px;
+        }
+
+        .user{
+            display:flex;
+            align-items:center;
+            gap:14px;
+        }
+
+        .avatar{
+            width:52px;
+            height:52px;
+            border-radius:50%;
+            background:#d9d9d9;
+        }
+
+        .user span{
+            font-size:18px;
+            color:#555;
+        }
+
+        .actions{
+            display:flex;
+            align-items:center;
+            gap:14px;
+        }
+
+        .comment-btn,
+        .vote-btn,
+        .status{
+            height:48px;
+            padding:0 18px;
+
+            border-radius:8px;
+            border:1px solid #ddd;
+
+            display:flex;
+            align-items:center;
+            gap:10px;
+
+            font-size:18px;
+        }
+
+        .vote-btn{
+            background:#a9befa;
+            color:white;
+            border:none;
+            font-weight:600;
+        }
+
+        .status{
+            background:white;
+            color:#666;
+        }
+
+        /* ===== RIGHT ===== */
+
+        .right{
+            width:32%;
+        }
+
+        .side-btn{
+            width:100%;
+            height:85px;
+
+            border:none;
+            border-radius:16px;
+
+            font-size:22px;
+            font-weight:600;
+
+            display:flex;
+            align-items:center;
+            gap:15px;
+
+            padding-left:30px;
+
+            cursor:pointer;
+
+            margin-bottom:28px;
+        }
+
+        .primary{
+            background:#a9befa;
+            color:white;
+        }
+
+        .secondary{
+            background:#dfe6ff;
+            color:#555;
+
+            border:2px solid #a9befa;
+        }
+
+        /* ===== RESPONSIVE ===== */
+
+        @media(max-width:1200px){
+
+            .container{
+                flex-direction:column;
+            }
+
+            .left,
+            .right{
+                width:100%;
+            }
+        }
+
+        @media(max-width:768px){
+
+            header{
+                padding:20px;
+            }
+
+            .menu{
+                display:none;
+            }
+
+            .container{
+                padding:20px;
+            }
+
+            .filters{
+                flex-direction:column;
+            }
+
+            .search-box input,
+            .select-box select{
+                width:100%;
+            }
+
+            .card-bottom{
+                flex-direction:column;
+                gap:20px;
+                align-items:flex-start;
+            }
+
+            .actions{
+                flex-wrap:wrap;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+
+    <div></div>
+
+    <nav class="menu">
+        <a href="#" class="active">Bảng phản hồi</a>
+        <a href="#">Lộ trình sản phẩm</a>
+        <a href="#">Tài nguyên <i class="fa-solid fa-chevron-down"></i></a>
+    </nav>
+
+    <div class="profile">
+        <i class="fa-regular fa-circle-user"></i>
+        <span>Name</span>
+    </div>
+
+</header>
+
+<!-- MAIN -->
+<section class="container">
+
+    <!-- LEFT -->
+    <div class="left">
+
+        <!-- FILTER -->
+        <div class="filters">
+
+            <div class="search-box">
+                <input type="text" placeholder="Tìm kiếm">
+            </div>
+
+            <div class="select-box">
+                <select>
+                    <option>Trạng thái</option>
+                </select>
+            </div>
+
+            <div class="select-box">
+                <select>
+                    <option>Bình chọn nhiều</option>
+                </select>
+            </div>
+
+        </div>
+
+        <!-- CARD 1 -->
+        <div class="feedback-card">
+
+            <div class="card-top">
+
+                <div class="card-content">
+
+                    <h2 class="active">
+                        Tiêu đề phản hồi
+                        <span class="new-tag">Phản hồi mới</span>
+                    </h2>
+
+                    <p>Nội dung phản hồi</p>
+
+                </div>
+
+                <div class="vote-box">
+                    10
+                </div>
+
+            </div>
+
+            <div class="card-bo ttom">
+
+                <div class="user">
+
+                    <div class="avatar"></div>
+
+                    <span>
+                        Người dùng 1
+                        <small style="color:#aaa;">1 ngày trước</small>
+                    </span>
+
+                </div>
+
+                <div class="actions">
+
+                    <div class="comment-btn">
+                        <i class="fa-regular fa-message"></i>
+                        10
+                    </div>
+
+                    <div class="vote-btn">
+                        Bình chọn
+                    </div>
+
+                    <div class="status">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Đang xem xét
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="feedback-card">
+
+            <div class="card-top">
+
+                <div class="card-content">
+
+                    <h2>Tiêu đề phản hồi</h2>
+
+                    <p>Nội dung phản hồi</p>
+
+                </div>
+
+                <div class="vote-box">
+                    25
+                </div>
+
+            </div>
+
+            <div class="card-bottom">
+
+                <div class="user">
+
+                    <div class="avatar"></div>
+
+                    <span>
+                        Người dùng 2
+                        <small style="color:#aaa;">5 tháng trước</small>
+                    </span>
+
+                </div>
+
+                <div class="actions">
+
+                    <div class="comment-btn">
+                        <i class="fa-regular fa-message"></i>
+                        5
+                    </div>
+
+                    <div class="vote-btn">
+                        Bình chọn
+                    </div>
+
+                    <div class="status">
+                        <i class="fa-solid fa-check"></i>
+                        Đã hoàn thành
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="feedback-card">
+
+            <div class="card-top">
+
+                <div class="card-content">
+
+                    <h2>Tiêu đề phản hồi</h2>
+
+                    <p>Nội dung phản hồi</p>
+
+                </div>
+
+                <div class="vote-box">
+                    19
+                </div>
+
+            </div>
+
+            <div class="card-bottom">
+
+                <div class="user">
+
+                    <div class="avatar"></div>
+
+                    <span>
+                        Người dùng 3
+                        <small style="color:#aaa;">1 tháng trước</small>
+                    </span>
+
+                </div>
+
+                <div class="actions">
+
+                    <div class="comment-btn">
+                        <i class="fa-regular fa-message"></i>
+                        5
+                    </div>
+
+                    <div class="vote-btn">
+                        Bình chọn
+                    </div>
+
+                    <div class="status">
+                        <i class="fa-solid fa-rotate"></i>
+                        Đang thực hiện
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+        <button class="side-btn primary">
+            <i class="fa-solid fa-plus"></i>
+            Viết phản hồi
+        </button>
+
+        <button class="side-btn secondary">
+            <i class="fa-regular fa-user"></i>
+            Phản hồi của tôi
+        </button>
+
+    </div>
+
+</section>
+
+</body>
+</html>
