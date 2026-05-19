@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Ý Kiến Phản Hồi - Khách Hàng</title>
+    <!-- Nhúng FontAwesome để dùng icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5; /* Màu tím Indigo hiện đại */
+            --primary-hover: #4338ca;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --star-color: #cbd5e1;
+            --star-active: #fbbf24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Khung nội dung chính */
+        .feedback-container {
+            background-color: var(--bg-card);
+            width: 100%;
+            max-width: 550px;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Form Group chung */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        /* Bước 1: Đánh giá Sao (Rating) */
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-direction: row-reverse; /* Để xử lý hiệu ứng hover bằng CSS dễ hơn */
+        }
+
+        .rating-stars input {
+            display: none;
+        }
+
+        .rating-stars label {
+            font-size: 2.2rem;
+            color: var(--star-color);
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.1s ease;
+        }
+
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label,
+        .rating-stars input:checked ~ label {
+            color: var(--star-active);
+        }
+
+        .rating-stars label:active {
+            transform: scale(0.9);
+        }
+
+        /* Bước 2: Thẻ phân loại (Tags/Pills) */
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag-group input {
+            display: none;
+        }
+
+        .tag-group label {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background-color: var(--bg-body);
+            transition: all 0.2s;
+        }
+
+        .tag-group input:checked + label {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Bước 3: Nhập văn bản & Đính kèm */
+        .textarea-wrapper {
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            resize: none;
+            outline: none;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Nút đính kèm tệp */
+        .file-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .file-upload-btn input {
+            display: none;
+        }
+
+        /* Ô nhập thông tin liên hệ */
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Nút Gửi */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* MÀN HÌNH CẢM ƠN (Ẩn mặc định) */
+        .thank-you-screen {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .thank-you-screen i {
+            font-size: 4rem;
+            color: #10b981;
+            margin-bottom: 20px;
+        }
+
+        .thank-you-screen h2 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .thank-you-screen p {
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="feedback-container" id="feedbackContainer">
+
+    <!-- FORM ĐIỀN PHẢN HỒI -->
+    <form id="feedbackForm" onsubmit="submitFeedback(event)">
+        <div class="header">
+            <h1>Trải nghiệm của bạn thế nào?</h1>
+            <p>Ý kiến của bạn giúp chúng tôi cải thiện dịch vụ mỗi ngày.</p>
+        </div>
+
+        <!-- BƯỚC 1: ĐÁNH GIÁ SAO -->
+        <div class="form-group" style="text-align: center;">
+            <label class="form-label">Mức độ hài lòng chung</label>
+            <div class="rating-stars">
+                <input type="radio" id="star5" name="rating" value="5" required><label for="star5" title="Tuyệt vời"><i class="fa-solid fa-star"></i></label>
+                <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="Tốt"><i class="fa-solid fa-star"></i></label>
+                <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="Bình thường"><i class="fa-solid fa-star"></i></label>
+                <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="Tệ"><i class="fa-solid fa-star"></i></label>
+                <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="Rất tệ"><i class="fa-solid fa-star"></i></label>
+            </div>
+        </div>
+
+        <!-- BƯỚC 2: CHỌN DANH MỤC -->
+        <div class="form-group">
+            <label class="form-label">Yếu tố nào làm bạn bận tâm/hài lòng nhất?</label>
+            <div class="tag-group">
+                <input type="checkbox" id="tag1" name="category" value="Chất lượng sản phẩm"><label for="tag1">Sản phẩm</label>
+                <input type="checkbox" id="tag2" name="category" value="Thái độ phục vụ"><label for="tag2">Thái độ phục vụ</label>
+                <input type="checkbox" id="tag3" name="category" value="Thời gian giao hàng"><label for="tag3">Giao hàng nhanh/chậm</label>
+                <input type="checkbox" id="tag4" name="category" value="Giá cả"><label for="tag4">Giá cả</label>
+                <input type="checkbox" id="tag5" name="category" value="Trải nghiệm ứng dụng/web"><label for="tag5">Giao diện dễ dùng</label>
+            </div>
+        </div>
+
+        <!-- BƯỚC 3: CHI TIẾT & ĐÍNH KÈM -->
+        <div class="form-group">
+            <label class="form-label" for="comment">Chia sẻ thêm chi tiết (Tùy chọn)</label>
+            <div class="textarea-wrapper">
+                <textarea id="comment" placeholder="Nhập câu chuyện hoặc góp ý cụ thể của bạn tại đây..."></textarea>
+            </div>
+            <label class="file-upload-btn">
+                <input type="file" accept="image/*">
+                <i class="fa-solid fa-paperclip"></i> Đính kèm hình ảnh (nếu có)
+            </label>
+        </div>
+
+        <!-- BƯỚC 4: LIÊN HỆ -->
+        <div class="form-group">
+            <label class="form-label" for="contact">Số điện thoại hoặc Email (Để nhận phản hồi giải quyết)</label>
+            <input type="text" id="contact" class="input-field" placeholder="Ví dụ: 0912345xxx hoặc email@cua-ban.com">
+        </div>
+
+        <!-- NÚT GỬI -->
+        <button type="submit" class="submit-btn">Gửi phản hồi của bạn</button>
+    </form>
+
+    <!-- MÀN HÌNH CẢM ƠN (Sẽ hiển thị bằng Javascript sau khi gửi) -->
+    <div class="thank-you-screen" id="thankYouScreen">
+        <i class="fa-solid fa-circle-check"></i>
+        <h2>Cảm ơn bạn rất nhiều!</h2>
+        <p>Chúng tôi đã tiếp nhận ý kiến đóng góp của bạn. Đội ngũ chăm sóc khách hàng sẽ xem xét và liên hệ lại với bạn (nếu cần thiết) trong thời gian sớm nhất.</p>
+    </div>
+
+</div>
+
+<!-- Đoạn mã xử lý hiệu ứng gửi form -->
+<script>
+    function submitFeedback(event) {
+        event.preventDefault(); // Ngăn trang bị tải lại
+
+        // Ẩn form đi và hiện màn hình cảm ơn
+        document.getElementById('feedbackForm').style.display = 'none';
+        document.getElementById('thankYouScreen').style.display = 'block';
+    }
+</script>
+</body>
+</html>

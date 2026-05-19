@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Phản Hồi Khách Hàng</title>
+  <!-- Chèn FontAwesome để dùng icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+        --bg-primary: #f4f6f9;
+        --sidebar-bg: #1e293b;
+        --text-main: #334155;
+        --text-light: #94a3b8;
+        --border-color: #e2e8f0;
+        --white: #ffffff;
+
+        /* Màu trạng thái */
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --success: #10b981;
+        --primary: #3b82f6;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-color: var(--bg-primary);
+        color: var(--text-main);
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* 1. SIDEBAR (Thanh điều hướng) */
+    .sidebar {
+        width: 260px;
+        background-color: var(--sidebar-bg);
+        color: var(--white);
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .sidebar .logo {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #3b82f6;
+    }
+
+    .menu-list {
+        list-style: none;
+    }
+
+    .menu-item {
+        margin-bottom: 5px;
+    }
+
+    .menu-item a {
+        color: #94a3b8;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 12px 15px;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+
+    .menu-item a:hover, .menu-item.active a {
+        background-color: #334155;
+        color: var(--white);
+    }
+
+    .menu-item .badge {
+        background-color: var(--danger);
+        color: white;
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: 10px;
+        margin-left: auto;
+    }
+
+    /* MAIN CONTENT AREA */
+    .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    /* Header trên cùng */
+    .main-header {
+        background-color: var(--white);
+        height: 60px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+    }
+
+    .search-box {
+        position: relative;
+    }
+
+    .search-box input {
+        padding: 8px 12px 8px 35px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        width: 300px;
+        outline: none;
+    }
+
+    .search-box i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-light);
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+    }
+
+    /* 3 CỘT NỘI DUNG CHÍNH */
+    .dashboard-layout {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+    }
+
+    /* CỘT TRUNG TÂM: Danh sách phản hồi */
+    .feedback-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid var(--border-color);
+        background-color: var(--white);
+    }
+
+    .column-header {
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        padding: 20px;
+        background-color: var(--bg-primary);
+    }
+
+    .stat-card {
+        background: var(--white);
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .stat-card .value {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .stat-card .label {
+        font-size: 0.85rem;
+        color: var(--text-light);
+    }
+
+    .feedback-list {
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .feedback-card {
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+        cursor: pointer;
+        transition: background 0.2s;
+        position: relative;
+    }
+
+    .feedback-card:hover, .feedback-card.active {
+        background-color: #f8fafc;
+    }
+
+    .feedback-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+    }
+
+    .feedback-card.priority-high::before { background-color: var(--danger); }
+    .feedback-card.priority-medium::before { background-color: var(--warning); }
+    .feedback-card.priority-low::before { background-color: var(--success); }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    .customer-name {
+        font-weight: 600;
+    }
+
+    .time {
+        font-size: 0.8rem;
+        color: var(--text-light);
+    }
+
+    .rating-stars {
+        color: #fbbf24;
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+    }
+
+    .feedback-snippet {
+        font-size: 0.9rem;
+        color: #64748b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-transform: none;
+        text-overflow: ellipsis;
+    }
+
+    /* CỘT PHẢI: Chi tiết phản hồi */
+    .detail-column {
+        width: 450px;
+        background-color: var(--white);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detail-header {
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .detail-body {
+        padding: 25px;
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .detail-text {
+        background-color: var(--bg-primary);
+        padding: 15px;
+        border-radius: 8px;
+        line-height: 1.6;
+        margin: 15px 0;
+    }
+
+    .tag {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background-color: #e2e8f0;
+    }
+
+    .tag.danger { background-color: #fee2e2; color: var(--danger); }
+
+    /* Khung hành động (Action) */
+    .action-panel {
+        padding: 20px;
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .reply-box {
+        width: 100%;
+        height: 80px;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        resize: none;
+        outline: none;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary { background-color: var(--primary); color: white; }
+    .btn-success { background-color: var(--success); color: white; }
+  </style>
+</head>
+<body>
+
+<!-- 1. THANH ĐIỀU HƯỚNG (SIDEBAR) -->
+<div class="sidebar">
+  <div class="logo">
+    <i class="fa-solid fa-comments-toggle"></i> FB-System
+  </div>
+  <ul class="menu-list">
+    <li class="menu-item active">
+      <a href="#"><i class="fa-solid fa-chart-pie"></i> Tổng quan</a>
+    </li>
+    <li class="menu-item">
+      <a href="#"><i class="fa-solid fa-inbox"></i> Phản hồi mới <span class="badge">3</span></a>
+    </li>
+    <li class="menu-item">
+      <a href="#"><i class="fa-solid fa-spinner"></i> Đang xử lý</a>
+    </li>
+    <li class="menu-item">
+      <a href="#"><i class="fa-solid fa-circle-check"></i> Đã giải quyết</a>
+    </li>
+    <li class="menu-item">
+      <a href="#"><i class="fa-solid fa-gear"></i> Cấu hình</a>
+    </li>
+  </ul>
+</div>
+
+<!-- KHU VỰC CHÍNH -->
+<div class="main-content">
+
+  <!-- HEADER -->
+  <div class="main-header">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Tìm kiếm phản hồi, khách hàng...">
+    </div>
+    <div class="user-profile">
+      <i class="fa-solid fa-circle-user fa-lg"></i> Nguyễn Văn A (CSKH)
+    </div>
+  </div>
+
+  <!-- LAYOUT 2 CỘT NỘI DUNG (Sau khi bỏ sidebar) -->
+  <div class="dashboard-layout">
+
+    <!-- CỘT 2: DANH SÁCH PHẢN HỒI -->
+    <div class="feedback-column">
+      <!-- Widget Thống kê nhanh -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="value" style="color: var(--primary)">4.6 / 5</span>
+          <span class="label">Điểm CSAT tuần này</span>
+        </div>
+        <div class="stat-card">
+          <span class="value" style="color: var(--danger)">3</span>
+          <span class="label">Case khẩn cấp chưa xử lý</span>
+        </div>
+        <div class="stat-card">
+          <span class="value" style="color: var(--success)">14 phút</span>
+          <span class="label">Thời gian phản hồi (SLA)</span>
+        </div>
+      </div>
+
+      <div class="column-header">
+        <h3>Tất cả phản hồi mới nhận</h3>
+      </div>
+
+      <!-- Danh sách Card cuộn -->
+      <div class="feedback-list">
+        <!-- Card 1 -->
+        <div class="feedback-card priority-high active">
+          <div class="card-header">
+            <span class="customer-name">Trần Thị Bích</span>
+            <span class="time">5 phút trước</span>
+          </div>
+          <div class="rating-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+          </div>
+          <div class="feedback-snippet">Sản phẩm giao đến bị vỡ nứt nghiêm trọng, tôi gọi hotline không ai bắt máy...</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feedback-card priority-medium">
+          <div class="card-header">
+            <span class="customer-name">Lê Hoàng Nam</span>
+            <span class="time">25 phút trước</span>
+          </div>
+          <div class="rating-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+          </div>
+          <div class="feedback-snippet">Shipper giao hàng hơi cọc cằn, tuy nhiên hàng hóa đóng gói cẩn thận.</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feedback-card priority-low">
+          <div class="card-header">
+            <span class="customer-name">Phan Văn Đức</span>
+            <span class="time">1 giờ trước</span>
+          </div>
+          <div class="rating-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <div class="feedback-snippet">Dịch vụ tuyệt vời! Sẽ tiếp tục ủng hộ shop dài dài.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CỘT 3: CHI TIẾT PHẢN HỒI ĐANG CHỌN -->
+    <div class="detail-column">
+      <div class="detail-header">
+        <h3>Chi tiết Case #1024</h3>
+        <span class="tag danger"><i class="fa-solid fa-circle-exclamation"></i> Khẩn cấp</span>
+      </div>
+
+      <div class="detail-body">
+        <strong>Khách hàng:</strong> Trần Thị Bích <br>
+        <strong>Email:</strong> bich.tran@email.com <br>
+        <strong>Số điện thoại:</strong> 0901234xxx <br>
+        <strong>Phân loại:</strong> <span class="tag">Chất lượng sản phẩm</span>
+
+        <div class="detail-text">
+          "Sản phẩm giao đến bị vỡ nứt nghiêm trọng, tôi gọi hotline không ai bắt máy. Đề nghị shop hoàn tiền hoặc đổi sản phẩm mới ngay lập tức cho tôi!"
+        </div>
+
+        <div style="font-size: 0.85rem; color: var(--text-light)">
+          <i class="fa-solid fa-paperclip"></i> Đính kèm: <code>hình_ảnh_lỗi.jpg</code>
+        </div>
+      </div>
+
+      <!-- Khung xử lý nhanh -->
+      <div class="action-panel">
+        <textarea class="reply-box" placeholder="Nhập nội dung phản hồi hoặc ghi chú giải quyết..."></textarea>
+        <div class="btn-group">
+          <button class="btn" style="background:#e2e8f0;">Chuyển bộ phận</button>
+          <button class="btn btn-primary">Gửi phản hồi</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

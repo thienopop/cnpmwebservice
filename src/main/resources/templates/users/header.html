@@ -1,15 +1,223 @@
-<header style="padding:20px; background:#dbe4ff;">
-  <h2>HEADER</h2>
+<!--<header style="padding:20px; background:#dbe4ff;">-->
+<!--  <h2>HEADER</h2>-->
 
-  <button onclick="loadPage('home.html')">
-    Trang chủ
-  </button>
+<!--  <button onclick="loadPage('home.html')">-->
+<!--    Trang chủ-->
+<!--  </button>-->
 
-  <button onclick="loadPage('feedback.html')">
-    Feedback
-  </button>
+<!--  <button onclick="loadPage('feedback.html')">-->
+<!--    Feedback-->
+<!--  </button>-->
 
-  <button onclick="loadPage('roadmap.html')">
-    Roadmap
-  </button>
+<!--  <button onclick="loadPage('roadmap.html')">-->
+<!--    Roadmap-->
+<!--  </button>-->
+<!--</header>-->
+
+<!-- START: CUSTOMER PORTAL HEADER -->
+<style>
+  /* --- CSS RESET & VARIABLES (Dùng chung cho toàn trang nếu chưa có) --- */
+:root {
+    --primary-color: #2563eb;
+    --white: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+}
+
+/* --- ĐOẠN CSS RIÊNG CHO HEADER --- */
+.site-header {
+    width: 100%;
+}
+
+/* 1. Thanh điều hướng (Navbar) */
+.site-header .navbar {
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-header .logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.site-header .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.site-header .nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.site-header .nav-links a:hover,
+.site-header .nav-links a.active {
+    color: var(--primary-color);
+}
+
+.site-header .user-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.site-header .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+}
+
+/* 2. Khối chào mừng & Tìm kiếm (Hero Section) */
+.site-header .hero-section {
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    color: var(--white);
+    padding: 60px 5%;
+    text-align: center;
+}
+
+.site-header .hero-section h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.site-header .hero-section p {
+    color: #93c5fd;
+    margin-bottom: 25px;
+    font-size: 1.05rem;
+}
+
+/* Ô tìm kiếm thông minh */
+.site-header .search-bar-wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.site-header .search-bar-wrapper input {
+    width: 100%;
+    padding: 14px 20px 14px 45px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    outline: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease;
+}
+
+.site-header .search-bar-wrapper input:focus {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.site-header .search-bar-wrapper i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* Tương thích di động (Responsive) */
+@media (max-width: 768px) {
+    .site-header .nav-links {
+        display: none; /* Ẩn các nút chữ trên mobile để chống vỡ khung */
+    }
+    .site-header .hero-section h1 {
+        font-size: 1.5rem;
+    }
+    .site-header .hero-section p {
+        font-size: 0.95rem;
+    }
+}
+</style>
+<header class="site-header">
+  <!-- Thanh điều hướng (Navbar) -->
+  <nav class="navbar">
+    <a href="#" class="logo">
+      <i class="fa-solid fa-layer-group"></i> Khách Hàng
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Trang chủ</a></li>
+      <li><a href="#">Sản phẩm của tôi</a></li>
+      <li><a href="#">Gửi phản hồi</a></li>
+      <li><a href="#">Trợ giúp & Hỏi đáp</a></li>
+    </ul>
+    <div class="user-nav">
+      <!-- Thay bằng link ảnh avatar thật của bạn -->
+      <img id="image_user"  alt="Avatar Khách Hàng" class="user-avatar">
+      <span class="user-name" id="name_user"></span>
+    </div>
+  </nav>
+
+  <!-- Khối chào mừng & Tìm kiếm nhanh (Hero Banner) -->
+  <div class="hero-section">
+    <h1>Xin chào Minh Thư, chúng tôi có thể giúp gì cho bạn?</h1>
+    <p>Tra cứu nhanh giải pháp hoặc theo dõi tiến độ xử lý khiếu nại của bạn.</p>
+    <div class="search-bar-wrapper">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Tìm kiếm câu hỏi thường gặp, hướng dẫn sửa lỗi...">
+    </div>
+  </div>
 </header>
+<script>
+  (async () => {
+      console.log("Header JS chạy");
+
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+          window.location.href = "login.html";
+          return;
+      }
+
+      try {
+          const response = await fetch("http://localhost:8080/users/me", {
+              method: "GET",
+              headers: {
+                  "Authorization": "Bearer " + token
+              }
+          });
+
+          const user = await response.json();
+
+          console.log(user);
+
+          // Name
+          const usernameEl = document.getElementById("name_user");
+          if (usernameEl) {
+              usernameEl.innerText = `thien ${user.name}`;
+          }
+
+          // Avatar
+          const image = document.getElementById("image_user");
+          if (image) {
+              image.src = user.image || "https://via.placeholder.com/32";
+          }
+
+      } catch (error) {
+          console.error("Lỗi lấy user:", error);
+      }
+  })();
+</script>
